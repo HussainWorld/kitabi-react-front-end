@@ -135,6 +135,7 @@ const SignUpForm = () => {
             required
           />
         </div>
+        
         <div>
           <label htmlFor='confirm'>Confirm Password:</label>
           <input
