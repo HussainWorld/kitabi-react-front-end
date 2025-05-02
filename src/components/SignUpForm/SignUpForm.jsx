@@ -13,9 +13,13 @@ const SignUpForm = () => {
     username: '',
     password: '',
     passwordConf: '',
+    email: '',
+    phone: '',
+    gender: '',
+    birthDate: '',
   });
 
-  const { username, password, passwordConf } = formData;
+  const { username, password, passwordConf, email, phone, gender, birthDate } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -34,7 +38,22 @@ const SignUpForm = () => {
   };
 
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    const isEmailInvalid = !email || !/\S+@\S+\.\S+/.test(email);
+    const isPhoneInvalid = !phone || !/^\d{8}$/.test(phone);
+    const isGenderInvalid = !gender;
+    const isBirthDateInvalid = !birthDate;
+    const isPasswordInvalid = !password || password.length < 6;
+    const isPasswordMismatch = password !== passwordConf;
+
+    return (
+      !username ||
+      isEmailInvalid ||
+      isPhoneInvalid ||
+      isGenderInvalid ||
+      isBirthDateInvalid ||
+      isPasswordInvalid ||
+      isPasswordMismatch
+    );
   };
 
   return (
@@ -53,6 +72,58 @@ const SignUpForm = () => {
             required
           />
         </div>
+
+        <div>
+          <label htmlFor='email'>Email:</label>
+          <input
+            type='email'
+            id='email'
+            value={email}
+            name='email'
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor='phone'>Phone Number:</label>
+          <input
+            type='text'
+            id='phone'
+            value={phone}
+            name='phone'
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor='birthDate'>Date of Birth:</label>
+          <input
+            type='date'
+            id='birthDate'
+            value={birthDate}
+            name='birthDate'
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor='gender'>Gender:</label>
+          <select
+            id='gender'
+            name='gender'
+            value={gender}
+            onChange={handleChange}
+            required
+          >
+            <option value=''>Select Gender</option>
+            <option value='Male'>Male</option>
+            <option value='Female'>Female</option>
+          </select>
+        </div>
+
         <div>
           <label htmlFor='password'>Password:</label>
           <input
