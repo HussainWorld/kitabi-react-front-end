@@ -11,6 +11,9 @@ import { UserContext } from './contexts/UserContext';
 
 import { AdContextProvider } from "../src/contexts/adContext";
 import CreateAd from './components/CreateAd/CreateAd';
+
+import MyAds from './components/MyAds/MyAds';
+
 const App = () => {
   const { user } = useContext(UserContext);
   
@@ -22,6 +25,8 @@ const App = () => {
         <Route path='/' element={user ? <Dashboard /> : <Landing />} />
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
+
+        <Route path='/my-ads' element={<MyAds />}></Route>
 
         <Route path='/create-ad'
          element={

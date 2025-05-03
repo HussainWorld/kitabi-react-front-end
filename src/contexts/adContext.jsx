@@ -1,19 +1,35 @@
 import { createContext, useState, useEffect } from "react";
-import { getAllAds } from "../services/adService"; // Assuming you have this service to get all ads
+import { getAllAds } from "../services/adService";
 
 const AdContext = createContext();
 
 const AdContextProvider = ({ children }) => {
   const [ads, setAds] = useState([]);
-  const [loading, setLoading] = useState(true); // For handling loading state
-  const [error, setError] = useState(null); // To store any errors from fetching ads
+
+  const [userAds, setUserAds] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const fetchedAds = await getAllAds(); // Call the getAllAds service
+        const fetchedAds = await getAllAds();
         setAds(fetchedAds);
-        localStorage.setItem("ads", JSON.stringify(fetchedAds)); // Store ads in localStorage
+        localStorage.setItem("ads", JSON.stringify(fetchedAds));
+
+        const token = localStorage.getItem('token');
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        const userId = decodedPayload.payload._id;
+
+        const userAds = fetchedAds.filter(ad => ad.userId === userId);
+        setUserAds(userAds)
+
+        console.log('user id',userId)
+        console.log('fetched ads', fetchedAds)
+        localStorage.setItem("userAds", JSON.stringify(userAds))
+        console.log('user ads inside the contsxt',userAds)
       } catch (err) {
         setError("Failed to fetch ads.");
         console.error(err);
@@ -23,10 +39,10 @@ const AdContextProvider = ({ children }) => {
     };
 
     fetchAds();
-  }, []); // Empty dependency array ensures this runs once on component mount
+  }, []);
 
   return (
-    <AdContext.Provider value={{ ads, setAds, loading, error }}>
+    <AdContext.Provider value={{ ads, userAds, setAds, loading, error }}>
       {children}
     </AdContext.Provider>
   );
