@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { getAllAds } from "../services/adService";
+import { UserContext } from "./UserContext";
 
 const AdContext = createContext();
 
@@ -11,6 +12,10 @@ const AdContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // const [trigger, setTrigger] = useState();
+
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -18,11 +23,12 @@ const AdContextProvider = ({ children }) => {
         setAds(fetchedAds);
         localStorage.setItem("ads", JSON.stringify(fetchedAds));
 
-        const token = localStorage.getItem('token');
-        const payload = token.split('.')[1];
-        const decodedPayload = JSON.parse(atob(payload));
-        const userId = decodedPayload.payload._id;
-
+        // const token = localStorage.getItem('token');
+        // const payload = token.split('.')[1];
+        // const decodedPayload = JSON.parse(atob(payload));
+        // const userId = decodedPayload.payload._id;
+        
+        const userId = user._id;
         const userAds = fetchedAds.filter(ad => ad.userId === userId);
         setUserAds(userAds)
 
@@ -39,7 +45,7 @@ const AdContextProvider = ({ children }) => {
     };
 
     fetchAds();
-  }, []);
+  }, [user]);
 
   return (
     <AdContext.Provider value={{ ads, userAds, setAds, loading, error }}>
