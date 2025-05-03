@@ -60,4 +60,25 @@ const create = async (adData) => {
   }
 };
 
-export { getAllAds, view, create };
+const deleteAd = async (adId) => {
+  try {
+      const res = await fetch(`${BASE_URL}/${adId}`, {
+          method: 'DELETE',
+          headers: { 
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      });
+
+      if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.message || 'Failed to delete ad');
+      }
+
+      return { message: 'Ad deleted successfully' };
+  } catch (err) {
+      console.error('Delete Error:', err);
+      throw new Error(err.message);
+  }
+};
+
+export { getAllAds, view, create, deleteAd };

@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { AdContext } from '../../contexts/adContext'; 
 import { UserContext } from '../../contexts/UserContext';
 
+import { Link } from 'react-router';
+
 const Dashboard = () => {
   const { user } = useContext(UserContext);
   const { ads } = useContext(AdContext); 
@@ -13,22 +15,25 @@ const Dashboard = () => {
         This is the dashboard page where you can see a list of all the ads.
       </p>
 
-      <h2>Ads</h2>
-      <ul>
-        {ads.length > 0 ? (
-          ads.map((ad) => (
-            <li key={ad._id}>
-              <h3>{ad.title}</h3>
-              <p>{ad.description}</p>
-              <p>Price: ${ad.price}</p>
-              <p>Status: {ad.status}</p>
-              <p>Location: {ad.location}</p>
-            </li>
-          ))
-        ) : (
-          <p>No ads available</p>
-        )}
-      </ul>
+      <main>
+          <h1>Ads</h1>
+          
+          {ads && ads.length > 0 ? (
+              ads.map((ad) => (
+                <Link key={ad._id} to={`/my-ads/${ad._id}`}>
+                <article>
+                  <h3>{ad.title}</h3>
+                  <p>{ad.description}</p>
+                  <p>Price: ${ad.price}</p>
+                  <p>Status: {ad.status}</p>
+                  <p>Location: {ad.location}</p>
+                  </article>
+                </Link>
+              ))
+          ) : (
+            <p>No ads available.</p>
+          )}
+    </main>
     </main>
   );
 };
