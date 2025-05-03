@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { AdContext } from '../../contexts/adContext'; 
+import { Link } from 'react-router';
 // import { UserContext } from '../../contexts/UserContext';
 
 const MyAds = () => {
@@ -9,24 +10,23 @@ const MyAds = () => {
   console.log('userAds inside my adssss',userAds)
   return (
     <main>
-      <div>
           <h1>Your Ads</h1>
-          {userAds.length > 0 ? (
-            <ul>
-              {userAds.map((ad) => (
-                <li key={ad._id}>
+          
+          {userAds && userAds.length > 0 ? (
+              userAds.map((ad) => (
+                <Link key={ad._id} to={`/my-ads/${ad._id}`}>
+                <article>
                   <h3>{ad.title}</h3>
                   <p>{ad.description}</p>
                   <p>Price: ${ad.price}</p>
                   <p>Status: {ad.status}</p>
                   <p>Location: {ad.location}</p>
-                </li>
-              ))}
-            </ul>
+                  </article>
+                </Link>
+              ))
           ) : (
             <p>You have no ads.</p>
           )}
-        </div>
     </main>
   );
 };

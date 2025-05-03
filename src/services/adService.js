@@ -19,6 +19,17 @@ const getAllAds = async () => {
   }
 }
 
+const view = async (adId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${adId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const create = async (adData) => {
   try {
     const token = localStorage.getItem('token');
@@ -49,4 +60,4 @@ const create = async (adData) => {
   }
 };
 
-export { getAllAds, create };
+export { getAllAds, view, create };
