@@ -13,6 +13,7 @@ import { AdContextProvider } from "../src/contexts/adContext";
 import CreateAd from './components/CreateAd/CreateAd';
 import MyAds from './components/MyAds/MyAds';
 
+
 import ViewAd from './components/ViewAd/ViewAd';
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <CreateAd />
           }>
         </Route>
+
       </Routes>
     </AdContextProvider>
     </>

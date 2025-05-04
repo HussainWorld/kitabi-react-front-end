@@ -5,7 +5,7 @@ import { AdContext } from "../../contexts/adContext";
 
 const CreateAd = () => {
   const navigate = useNavigate();
-  const { ads, setAds } = useContext(AdContext);
+  const { ads, setAds, setTrigger, trigger } = useContext(AdContext);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("danger");
   const [formData, setFormData] = useState({
@@ -70,7 +70,7 @@ const CreateAd = () => {
         const updatedAds = [...ads, newAd];
         setAds(updatedAds);
         localStorage.setItem("ads", JSON.stringify(updatedAds));
-  
+        setTrigger(!trigger)
         setMessage("Ad added successfully!");
         setMessageType("success");
         setTimeout(() => navigate("/"), 1000);
@@ -147,7 +147,7 @@ const CreateAd = () => {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
+            type="file"
             name="image"
             value={formData.image}
             onChange={handleChange}

@@ -55,7 +55,7 @@ const ViewAd = () => {
             <article>
               <h3>Title: {ad.title}</h3>
               <p>Description: {ad.description}</p>
-              <p>Price: ${ad.price}</p>
+              <p>Price BHD: {ad.price}</p>
               <p>Status: {ad.status}</p>
               <p>Location: {ad.location}</p>
               

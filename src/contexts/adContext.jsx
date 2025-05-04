@@ -12,7 +12,7 @@ const AdContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // const [trigger, setTrigger] = useState();
+  const [trigger, setTrigger] = useState(false);
 
   const { user } = useContext(UserContext);
 
@@ -45,10 +45,10 @@ const AdContextProvider = ({ children }) => {
     };
 
     fetchAds();
-  }, [user]);
+  }, [user, trigger]);
 
   return (
-    <AdContext.Provider value={{ ads, userAds, setAds, loading, error }}>
+    <AdContext.Provider value={{ ads, userAds, setAds, loading, error, trigger, setTrigger }}>
       {children}
     </AdContext.Provider>
   );
