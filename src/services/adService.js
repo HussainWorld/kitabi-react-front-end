@@ -81,4 +81,22 @@ const deleteAd = async (adId) => {
   }
 };
 
-export { getAllAds, view, create, deleteAd };
+// update ad
+async function updateAd (adId, adFormData) {
+  try {
+    const res = await fetch(`${BASE_URL}/${adId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(adFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export { getAllAds, view, create, deleteAd, updateAd };

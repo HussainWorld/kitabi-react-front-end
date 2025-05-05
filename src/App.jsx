@@ -13,8 +13,12 @@ import { AdContextProvider } from "../src/contexts/adContext";
 import CreateAd from './components/CreateAd/CreateAd';
 import MyAds from './components/MyAds/MyAds';
 
-
 import ViewAd from './components/ViewAd/ViewAd';
+
+import EditAd from './components/EditAd.jsx/EditAd';
+
+import { WantedAdContextProvider } from '../src/contexts/wantedAdContext';
+// import CreateWantedAd from './components/CreateWantedAd/CreateWantedAd';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -22,6 +26,7 @@ const App = () => {
   return (
     <>
     <AdContextProvider>
+    <WantedAdContextProvider>
       <NavBar/>
       <Routes>
         <Route path='/' element={user ? <Dashboard /> : <Landing />} />
@@ -30,6 +35,10 @@ const App = () => {
 
         <Route path='/my-ads' element={<MyAds />}></Route>
         <Route path='/my-ads/:adId' element={<ViewAd />}></Route>
+        <Route path='/my-ads/:adId/edit' element={<EditAd />}></Route>
+
+        
+        {/* <Route path='/create-wanted-ad' element={ <CreateWantedAd /> }> </Route> */}
 
         <Route path='/create-ad'
          element={
@@ -38,6 +47,7 @@ const App = () => {
         </Route>
 
       </Routes>
+      </WantedAdContextProvider>
     </AdContextProvider>
     </>
   );

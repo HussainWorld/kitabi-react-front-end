@@ -10,7 +10,6 @@ const ViewAd = () => {
   const { ads, setAds } = useContext(AdContext); 
 
   const { adId } = useParams();
-  console.log('ad ID', adId);
 
   const [ad, setAd] = useState(null);
 
@@ -46,7 +45,7 @@ const ViewAd = () => {
   };
 
   console.log('the advertisment', ad);
-  // console.log('adsssss', ads)
+  
   return (
     <main>
       <h1>Ads details</h1>
@@ -58,9 +57,11 @@ const ViewAd = () => {
               <p>Price BHD: {ad.price}</p>
               <p>Status: {ad.status}</p>
               <p>Location: {ad.location}</p>
-              
-              <button onClick={handleDelete}>
-                Delete Product
+              <img src={ad.image || 'default-placeholder.jpg'} alt="Ad Image" />              <button onClick={handleDelete}>
+                Delete
+              </button>
+              <button onClick={() => navigate(`/my-ads/${adId}/edit`)}>
+                Update 
               </button>
             </article>
           ) : (

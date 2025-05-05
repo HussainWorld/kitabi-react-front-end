@@ -1,21 +1,17 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
-import { create } from "../../services/adService";
-import { AdContext } from "../../contexts/adContext";
+import { createWantedAd } from "../../services/wantedAdService";
+import { WantedAdContext } from "../../contexts/wantedAdContext";
 
-const CreateAd = () => {
+const CreateWantedAd = () => {
   const navigate = useNavigate();
-  const { ads, setAds, setTrigger, trigger } = useContext(AdContext);
+  const { wantedAds, setWantedAds, setTrigger, trigger } = useContext(WantedAdContext);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("danger");
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    price: '',
-    status: '',
-    location: '',
     image: '',
-    category: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -28,11 +24,8 @@ const CreateAd = () => {
   const validateInputs = () => {
     const errors = {};
     if (!formData.title) errors.title = "Title is required";
-    if (!formData.price || isNaN(formData.price) || formData.price <= 0) errors.price = "Valid price is required";
-    if (!formData.status) errors.status = "Status is required";
-    if (!formData.location) errors.location = "Location is required";
+    if (!formData.description) errors.title = "Description is required";
     // if (!formData.image) errors.image = "Image URL is required";
-    if (!formData.category) errors.category = "Category is required";
     return errors;
   };
 
@@ -47,35 +40,29 @@ const CreateAd = () => {
     }
   
     try {
-      const price = parseFloat(formData.price);
   
-      const response = await create({ 
+      const response = await createWantedAd({ 
         title: formData.title, 
-        price, 
         description: formData.description, 
-        status: formData.status, 
-        location: formData.location, 
-        image: formData.image, 
-        category: formData.category 
+        image: formData.image
       });
 
       if (response && response._id) {
         const newAd = { 
           ...formData, 
-          price, 
           _id: response._id,
           image: response.image, 
         };
   
-        const updatedAds = [...ads, newAd];
-        setAds(updatedAds);
-        localStorage.setItem("ads", JSON.stringify(updatedAds));
+        const updatedWantedAds = [...wantedAds, newAd];
+        setWantedAds(updatedWantedAds);
+        localStorage.setItem("wantedAds", JSON.stringify(updatedWantedAds));
         setTrigger(!trigger)
-        setMessage("Ad added successfully!");
+        setMessage("Wanted Ad added successfully!");
         setMessageType("success");
         setTimeout(() => navigate("/"), 1000);
       } else {
-        setMessage("Failed to add product");
+        setMessage("Failed to add the wanted ad");
         setMessageType("danger");
       }
     } catch (err) {
@@ -87,7 +74,7 @@ const CreateAd = () => {
 
   return (
     <div>
-      <h1>Create New Ad</h1>
+      <h1>Create New Wanted Ad</h1>
 
       {message && <p className={`message-${messageType}`}>{message}</p>}
 
@@ -113,41 +100,9 @@ const CreateAd = () => {
         </div>
 
         <div>
-          <label>Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-          />
-          {errors.price && <p>{errors.price}</p>}
-        </div>
-
-        <div>
-          <label>Status:</label>
-          <select name="status" value={formData.status} onChange={handleChange}>
-            <option value="" disabled>Select Status</option>
-            <option value="New">New</option>
-            <option value="Used">Used</option>
-          </select>
-          {errors.status && <p>{errors.status}</p>}
-        </div>
-
-        <div>
-          <label>Location:</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-          />
-          {errors.location && <p>{errors.location}</p>}
-        </div>
-
-        <div>
           <label>Image URL:</label>
           <input
-            type="text"
+            type="file"
             name="image"
             value={formData.image}
             onChange={handleChange}
@@ -155,21 +110,11 @@ const CreateAd = () => {
           {errors.image && <p>{errors.image}</p>}
         </div>
 
-        <div>
-          <label>Category:</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          />
-          {errors.category && <p>{errors.category}</p>}
-        </div>
-
-        <button type="submit">Create Ad</button>
+        <button type="submit">Create Wanted Ad</button>
+        <button>Cancel</button>
       </form>
     </div>
   );
 };
 
-export default CreateAd;
+export default CreateWantedAd;

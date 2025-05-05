@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router";
-import { create } from "../../services/adService";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
+import { updateAd } from "../../services/adService";  // Assuming you have an updateAd service function
 import { AdContext } from "../../contexts/adContext";
 
-const CreateAd = () => {
+const EditAd = () => {
+  const { adId } = useParams();  // Get the ad ID from the URL
   const navigate = useNavigate();
   const { ads, setAds, setTrigger, trigger } = useContext(AdContext);
   const [message, setMessage] = useState("");
@@ -19,6 +20,25 @@ const CreateAd = () => {
   });
   const [errors, setErrors] = useState({});
 
+  // Fetch the ad details when the component mounts
+  useEffect(() => {
+    const adToEdit = ads.find(ad => ad._id === adId);
+    if (adToEdit) {
+      setFormData({
+        title: adToEdit.title,
+        description: adToEdit.description,
+        price: adToEdit.price,
+        status: adToEdit.status,
+        location: adToEdit.location,
+        image: adToEdit.image,
+        category: adToEdit.category,
+      });
+    } else {
+      setMessage("Ad not found.");
+      setMessageType("danger");
+    }
+  }, [adId, ads]);
+
   const handleChange = (evt) => {
     setMessage("");
     setErrors({ ...errors, [evt.target.name]: "" });
@@ -31,12 +51,11 @@ const CreateAd = () => {
     if (!formData.price || isNaN(formData.price) || formData.price <= 0) errors.price = "Valid price is required";
     if (!formData.status) errors.status = "Status is required";
     if (!formData.location) errors.location = "Location is required";
-    // if (!formData.image) errors.image = "Image URL is required";
+    if (!formData.image) errors.image = "Image URL is required";
     if (!formData.category) errors.category = "Category is required";
     return errors;
   };
 
-  
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     const newErrors = validateInputs();
@@ -48,8 +67,9 @@ const CreateAd = () => {
   
     try {
       const price = parseFloat(formData.price);
-  
-      const response = await create({ 
+
+      // Call the updateAd function from the service to update the ad
+      const response = await updateAd(adId, { 
         title: formData.title, 
         price, 
         description: formData.description, 
@@ -60,26 +80,27 @@ const CreateAd = () => {
       });
 
       if (response && response._id) {
-        const newAd = { 
+        // Find and update the ad in the context (ads array)
+        const updatedAd = { 
           ...formData, 
           price, 
           _id: response._id,
           image: response.image, 
         };
-  
-        const updatedAds = [...ads, newAd];
+
+        const updatedAds = ads.map(ad => ad._id === adId ? updatedAd : ad);
         setAds(updatedAds);
         localStorage.setItem("ads", JSON.stringify(updatedAds));
-        setTrigger(!trigger)
-        setMessage("Ad added successfully!");
+        setTrigger(!trigger);
+        setMessage("Ad updated successfully!");
         setMessageType("success");
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => navigate("/my-ads"), 1000);
       } else {
-        setMessage("Failed to add product");
+        setMessage("Failed to update product");
         setMessageType("danger");
       }
     } catch (err) {
-      setMessage("Error creating ad: " + err.message);
+      setMessage("Error updating ad: " + err.message);
       setMessageType("danger");
       console.error(err);
     }
@@ -87,7 +108,7 @@ const CreateAd = () => {
 
   return (
     <div>
-      <h1>Create New Ad</h1>
+      <h1>Edit Ad</h1>
 
       {message && <p className={`message-${messageType}`}>{message}</p>}
 
@@ -166,10 +187,10 @@ const CreateAd = () => {
           {errors.category && <p>{errors.category}</p>}
         </div>
 
-        <button type="submit">Create Ad</button>
+        <button type="submit">Update Ad</button>
       </form>
     </div>
   );
 };
 
-export default CreateAd;
+export default EditAd;
