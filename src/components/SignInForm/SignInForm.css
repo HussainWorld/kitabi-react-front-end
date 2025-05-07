@@ -1,0 +1,36 @@
+/* Targeting the card-body class */
+.card-body {
+  /* Your styles here */
+  /* background-color: red; */
+  /* border-radius: 1rem; */
+  /* background-color: rebeccapurple; */
+}
+
+/* Targeting the card-body with additional p-5 class */
+.card-body.p-5 {
+  /* Your styles here */
+  /* background-color: red; */
+  /* border-radius: 1rem; */
+  /* background-color: red !important; */
+}
+
+/* Targeting the card-body with both p-5 and text-center classes */
+.card-body.p-5.text-center {
+  /* Your styles here */
+  /* background-color: red; */
+  /* border-radius: 1rem;
+  background-color: red !important; */
+}
+
+.card{
+  /* border-radius: 1rem; */
+  /* background-color: red !important; */
+}
+.bg-dark{
+  /* border-radius: 1rem; */
+  /* background-color: red !important; */
+}
+.text-white{
+  /* border-radius: 1rem; */
+  /* background-color: red; */
+}

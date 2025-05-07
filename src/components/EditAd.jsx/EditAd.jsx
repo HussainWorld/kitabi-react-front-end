@@ -1,7 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
-import { updateAd } from "../../services/adService";  // Assuming you have an updateAd service function
+import { Link, useNavigate, useParams } from "react-router";
+import { updateAd } from "../../services/adService";
 import { AdContext } from "../../contexts/adContext";
+
+import './EditAd.css';
 
 const EditAd = () => {
   const { adId } = useParams();  // Get the ad ID from the URL
@@ -20,7 +22,6 @@ const EditAd = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // Fetch the ad details when the component mounts
   useEffect(() => {
     const adToEdit = ads.find(ad => ad._id === adId);
     if (adToEdit) {
@@ -68,7 +69,6 @@ const EditAd = () => {
     try {
       const price = parseFloat(formData.price);
 
-      // Call the updateAd function from the service to update the ad
       const response = await updateAd(adId, { 
         title: formData.title, 
         price, 
@@ -79,8 +79,7 @@ const EditAd = () => {
         category: formData.category 
       });
 
-      if (response && response._id) {
-        // Find and update the ad in the context (ads array)
+      if (response && response._id) { 
         const updatedAd = { 
           ...formData, 
           price, 
@@ -107,89 +106,116 @@ const EditAd = () => {
   };
 
   return (
-    <div>
-      <h1>Edit Ad</h1>
+    <main>
 
-      {message && <p className={`message-${messageType}`}>{message}</p>}
+      <section className="vh-100 gradient-custom">
+      <div className="container py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div className="card" style={{ borderRadius: '1rem' }}>
+              <div className="card-body p-5 text-center">
+                <div className="mb-md-5 mt-md-4 pb-5">
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-          {errors.title && <p>{errors.title}</p>}
+                     <h2>Post new book advertisement</h2>
+
+                     <br />
+
+                    {message && <p className={`message-${messageType}`}>{message}</p>}
+
+                    <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                        <label>Title:</label>
+                        <input
+                          type="text"
+                          name="title"
+                          value={formData.title}
+                          onChange={handleChange}
+                        />
+                        {errors.title && <p>{errors.title}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Price:</label>
+                        <input
+                          id="priceInput"
+                          type="number"
+                          name="price"
+                          value={formData.price}
+                          onChange={handleChange}
+                        />
+                        {errors.price && <p>{errors.price}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Status:</label>
+                        <select name="status" value={formData.status} onChange={handleChange}>
+                          <option value="" disabled>Select Status</option>
+                          <option value="New">New</option>
+                          <option value="Used">Used</option>
+                        </select>
+                        {errors.status && <p>{errors.status}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Location:</label>
+                        <input
+                          type="text"
+                          name="location"
+                          value={formData.location}
+                          onChange={handleChange}
+                        />
+                        {errors.location && <p>{errors.location}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Image URL:</label>
+                        <input
+                          type="text"
+                          name="image"
+                          value={formData.image}
+                          onChange={handleChange}
+                        />
+                        {errors.image && <p>{errors.image}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Category:</label>
+                        <input
+                          type="text"
+                          name="category"
+                          value={formData.category}
+                          onChange={handleChange}
+                        />
+                        {errors.category && <p>{errors.category}</p>}
+                      </div>
+
+                      <div className="form-group">
+                        <label>Description:</label>
+                        <textarea
+                          name="description"
+                          value={formData.description}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <button type="submit"  className="create-ad-btn">Post ad</button>
+                      <br />
+
+                    </form>
+                    <Link to="/" >
+                        <button type="button" className="cancel-ad-btn">Cancel</button>
+                    </Link>
+    
+                </div>                  
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div>
-          <label>Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label>Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-          />
-          {errors.price && <p>{errors.price}</p>}
-        </div>
-
-        <div>
-          <label>Status:</label>
-          <select name="status" value={formData.status} onChange={handleChange}>
-            <option value="" disabled>Select Status</option>
-            <option value="New">New</option>
-            <option value="Used">Used</option>
-          </select>
-          {errors.status && <p>{errors.status}</p>}
-        </div>
-
-        <div>
-          <label>Location:</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-          />
-          {errors.location && <p>{errors.location}</p>}
-        </div>
-
-        <div>
-          <label>Image URL:</label>
-          <input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-          />
-          {errors.image && <p>{errors.image}</p>}
-        </div>
-
-        <div>
-          <label>Category:</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          />
-          {errors.category && <p>{errors.category}</p>}
-        </div>
-
-        <button type="submit">Update Ad</button>
-      </form>
-    </div>
+    
+    </main>
   );
 };
 

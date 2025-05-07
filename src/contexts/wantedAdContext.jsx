@@ -22,11 +22,6 @@ const WantedAdContextProvider = ({ children }) => {
         const fetchedWantedAds = await getAllWantedAds();
         setWantedAds(fetchedWantedAds);
         localStorage.setItem("wantedAds", JSON.stringify(fetchedWantedAds));
-
-        // const token = localStorage.getItem('token');
-        // const payload = token.split('.')[1];
-        // const decodedPayload = JSON.parse(atob(payload));
-        // const userId = decodedPayload.payload._id;
         
         const userId = user._id;
         const userWantedAds = fetchedWantedAds.filter(ad => ad.userId === userId);

@@ -1,0 +1,15 @@
+#loginSignUpBtn {
+  background: none; 
+  border: none; 
+  padding: 0;
+}
+
+#loginSignUpBtn .nav-link {
+  color: inherit !important; 
+  text-decoration: none !important; 
+}
+
+#welcomePara{
+  padding-top: 16px;
+  padding-right: 20px;
+}

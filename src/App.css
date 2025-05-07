@@ -1,0 +1,6 @@
+.nav-item .nav-link {
+  text-decoration: none !important; /* Remove underline */
+  color: inherit !important;        /* Inherit color from parent */
+}
+
+

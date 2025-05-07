@@ -1,0 +1,17 @@
+.cancel-ad-btn{
+  background-color: rgba(254,89,88,255); 
+  color: white;
+  border: none;
+  padding: 12px 188px;
+  font-size: 16px; 
+  font-weight: bold;    
+  border-radius: 5px;    
+  cursor: pointer;        
+  text-align: center;  
+  display: inline-block;  
+  transition: background-color 0.3s ease; 
+}
+
+.cancel-ad-btn:hover {
+  background-color: rgba(204, 71, 70, 255); /* Darker blue when hovered */
+}

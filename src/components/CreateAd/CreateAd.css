@@ -1,0 +1,110 @@
+/* Body Styling: Remove Flexbox from body */
+
+
+/* Navbar Styling (if you want it fixed at the top) */
+
+/* .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #007bff; 
+  padding: 10px 0;
+} */
+
+/* Form Container */
+.form-container {
+  
+  justify-content: center;  /* Centers horizontally */
+  align-items: center;      /* Centers vertically */
+  height: 100vh;            /* Full height of the viewport */
+  margin: 0;                /* Remove default margin */
+  margin-left: 500px;
+  
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  /* width: 400px; */
+  max-width: 50%;
+  /* height: 600px; */
+  /* max-height: 70%; */
+  margin-top: 120px;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  margin-top: 5px;
+}
+
+input {
+  width: 95%;
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+select {
+  padding: 10px;
+}
+
+input[type="number"] {
+  width: auto;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+}
+
+.terms label {
+  margin-left: 5px;
+}
+
+/* Submit Button */
+.create-ad-btn {
+  background-color: rgba(254,89,88,255); 
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px; 
+  font-weight: bold;    
+  border-radius: 5px;    
+  cursor: pointer;        
+  text-align: center;  
+  display: inline-block;  
+  transition: background-color 0.3s ease; 
+}
+
+.create-ad-btn:hover {
+  background-color: rgba(204, 71, 70, 255); /* Darker blue when hovered */
+}
+
+/* price input */
+#priceInput{
+  padding-left: 220px;
+}

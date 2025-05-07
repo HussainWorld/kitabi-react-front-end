@@ -1,29 +1,31 @@
 import { useContext } from 'react';
 import { AdContext } from '../../contexts/adContext'; 
 import { Link } from 'react-router';
-// import { UserContext } from '../../contexts/UserContext';
 
 const MyAds = () => {
   const { userAds } = useContext(AdContext)
 
-  // const userAds = localStorage.getItem('userAds');
-  console.log('userAds inside my adssss',userAds)
   return (
     <main>
-          <h1>Your Ads</h1>
           
           {userAds && userAds.length > 0 ? (
-              userAds.map((ad) => (
-                <Link key={ad._id} to={`/my-ads/${ad._id}`}>
-                <article>
-                  <h3>{ad.title}</h3>
-                  <p>{ad.description}</p>
-                  <p>Price: ${ad.price}</p>
-                  <p>Status: {ad.status}</p>
-                  <p>Location: {ad.location}</p>
-                  </article>
-                </Link>
-              ))
+          <div className="container py-5">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              {userAds.map((ad) => (
+                <div key={ad._id} className="col">
+                  <Link to={`/my-ads/${ad._id}`} className="text-decoration-none">
+                    <div className="card h-100">
+                      <img src={ad.image} className="card-img-top" alt={ad.title} />
+                      <div className="card-body">
+                        <h5 className="card-title">{ad.title}</h5>
+                        <p className="card-text">{ad.description}</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
           ) : (
             <p>You have no ads.</p>
           )}

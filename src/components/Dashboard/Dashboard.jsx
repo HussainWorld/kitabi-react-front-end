@@ -1,39 +1,35 @@
 import { useContext } from 'react';
 import { AdContext } from '../../contexts/adContext'; 
-import { UserContext } from '../../contexts/UserContext';
-
 import { Link } from 'react-router';
 
 const Dashboard = () => {
-  const { user } = useContext(UserContext);
+
   const { ads } = useContext(AdContext); 
 
   return (
     <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the ads.
-      </p>
-
-      <main>
-          <h1>Ads</h1>
-          
           {ads && ads.length > 0 ? (
-              ads.map((ad) => (
-                <Link key={ad._id} to={`/my-ads/${ad._id}`}>
-                <article>
-                  <h3>{ad.title}</h3>
-                  <p>{ad.description}</p>
-                  <p>Price: ${ad.price}</p>
-                  <p>Status: {ad.status}</p>
-                  <p>Location: {ad.location}</p>
-                  </article>
-                </Link>
-              ))
+          <div className="container py-5">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              {ads.map((ad) => (
+                <div key={ad._id} className="col">
+                  <Link to={`/my-ads/${ad._id}`} className="text-decoration-none">
+                    <div className="card h-100">
+                      <img src={ad.image} className="card-img-top" alt={ad.title} />
+                      <div className="card-body">
+                        <h5 className="card-title">{ad.title}</h5>
+                        <p className="card-text">{ad.description}</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
           ) : (
             <p>No ads available.</p>
           )}
-    </main>
+    
     </main>
   );
 };
