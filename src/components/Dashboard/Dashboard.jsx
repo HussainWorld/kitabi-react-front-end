@@ -18,7 +18,8 @@ const Dashboard = () => {
                       <img src={ad.image} className="card-img-top" alt={ad.title} />
                       <div className="card-body">
                         <h5 className="card-title">{ad.title}</h5>
-                        <p className="card-text">{ad.description}</p>
+                        <h5 className="card-title">BD {ad.price}</h5> 
+                        {/* <p className="card-text">{ad.description}</p> */}
                       </div>
                     </div>
                   </Link>

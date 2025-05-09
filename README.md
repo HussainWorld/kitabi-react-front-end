@@ -1,10 +1,10 @@
 # [Ketaby](https://github.com/HussainWorld/kitabi-react-front-end.git)
 
-## Landing Page
-![Ketaby Landing Page]()
+## Ketaby Logo
+![Ketaby Logo Page](./public/Images/KetabyLogo.svg)
 
 ## Dashboard Page
-![Ketaby Dashboar Page]()
+![Ketaby Dashboar Page](./public/Images/DashboardPage.png)
 
 ## Description 
 
